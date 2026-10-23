@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import { Volume2, VolumeX, Coffee, LogOut, ExternalLink, KeyRound, Plus } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { Volume2, VolumeX, Coffee, LogOut, ExternalLink, KeyRound } from 'lucide-react';
 import { setAudioMuted, getAudioMuted, playNewOrderChime } from '../../utils/audioAlert';
 import { useAuth } from '../../context/AuthContext';
 import { ChangePasswordModal } from './ChangePasswordModal';
@@ -9,14 +9,12 @@ interface AdminHeaderProps {
   title: string;
   subtitle?: string;
   rightAction?: React.ReactNode;
-  showAddItemButton?: boolean;
 }
 
 export const AdminHeader: React.FC<AdminHeaderProps> = ({
   title,
   subtitle,
   rightAction,
-  showAddItemButton = true,
 }) => {
   const [muted, setMuted] = useState(getAudioMuted());
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
@@ -57,17 +55,6 @@ export const AdminHeader: React.FC<AdminHeaderProps> = ({
         </div>
 
         <div className="flex items-center space-x-1.5">
-          {showAddItemButton && (
-            <Link
-              to="/admin/menu?openAdd=true"
-              className="flex items-center space-x-1 px-2.5 py-1.5 rounded-xl bg-caramel text-espresso hover:bg-caramel-dark text-xs font-bold shadow-xs transition-colors"
-              title="Add Menu Item"
-            >
-              <Plus className="w-3.5 h-3.5" />
-              <span>+ Item</span>
-            </Link>
-          )}
-
           <button
             onClick={() => setIsPasswordModalOpen(true)}
             type="button"
@@ -102,11 +89,10 @@ export const AdminHeader: React.FC<AdminHeaderProps> = ({
           <button
             onClick={toggleSound}
             type="button"
-            className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold border transition-all ${
-              muted
-                ? 'bg-red-50 text-red-700 border-red-200 hover:bg-red-100'
-                : 'bg-cream text-espresso border-espresso/10 hover:border-caramel/40'
-            }`}
+            className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold border transition-all ${muted
+              ? 'bg-red-50 text-red-700 border-red-200 hover:bg-red-100'
+              : 'bg-cream text-espresso border-espresso/10 hover:border-caramel/40'
+              }`}
             title={muted ? 'Audio notification muted' : 'Audio notification active'}
           >
             {muted ? <VolumeX className="w-4 h-4 text-red-600" /> : <Volume2 className="w-4 h-4 text-caramel" />}
@@ -134,18 +120,6 @@ export const AdminHeader: React.FC<AdminHeaderProps> = ({
             <span>Preview Menu</span>
             <ExternalLink className="w-3 h-3 text-caramel" />
           </a>
-
-          {/* Quick Add Item Action */}
-          {showAddItemButton && (
-            <Link
-              to="/admin/menu?openAdd=true"
-              className="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl text-xs font-bold bg-caramel hover:bg-caramel-dark text-espresso transition-all shadow-xs"
-              title="Add a new item to the café menu"
-            >
-              <Plus className="w-3.5 h-3.5 text-espresso" />
-              <span>+ Add Item</span>
-            </Link>
-          )}
 
           {rightAction}
         </div>

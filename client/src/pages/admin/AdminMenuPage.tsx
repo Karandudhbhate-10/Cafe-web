@@ -93,7 +93,6 @@ export const AdminMenuPage: React.FC = () => {
         <AdminHeader
           title="Menu Catalog Management"
           subtitle="Add, edit prices, update customizations, or toggle sold out status"
-          showAddItemButton={false}
           rightAction={
             <button
               onClick={() => {
