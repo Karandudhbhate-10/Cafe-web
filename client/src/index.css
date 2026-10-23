@@ -1,0 +1,232 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-espresso: #2B1D17;
+    --color-roast: #17120F;
+    --color-cream: #F7F0E5;
+    --color-caramel: #C58B54;
+    --color-sage: #879078;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    background-color: #F7F0E5;
+    color: #2B1D17;
+    overflow-x: hidden;
+  }
+}
+
+/* Subtle organic grain overlay for artisanal tactile feel */
+.bg-grain {
+  background-image: radial-gradient(rgba(43, 29, 23, 0.04) 1px, transparent 0);
+  background-size: 24px 24px;
+}
+
+.bg-dark-grain {
+  background-image: radial-gradient(rgba(197, 139, 84, 0.05) 1px, transparent 0);
+  background-size: 24px 24px;
+}
+
+/* Custom smooth scrollbar */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+::-webkit-scrollbar-track {
+  background: #F7F0E5;
+}
+::-webkit-scrollbar-thumb {
+  background: #C58B54;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #A66E3A;
+}
+
+/* Hide scrollbar utility */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Hide all print-only templates when rendered on screen */
+#thermal-receipt-print,
+#printable-qr-sheet,
+#printable-single-qr,
+#printable-master-qr {
+  display: none;
+}
+
+/* Print styles for QR Code Sheets & Thermal POS Receipts */
+@page {
+  size: A4 portrait;
+  margin: 8mm auto;
+}
+
+@media print {
+  /* Reset browser default print canvas */
+  html, body {
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: #ffffff !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* When printing thermal receipt, completely remove the normal React root */
+  body.printing-receipt #root,
+  body:has(#thermal-receipt-print) #root {
+    display: none !important;
+  }
+  body.printing-receipt #printable-qr-sheet,
+  body.printing-receipt #printable-single-qr {
+    display: none !important;
+  }
+
+  /* When printing all table QR stands, hide React root and thermal receipt */
+  body.printing-qr-sheet #root {
+    display: none !important;
+  }
+  body.printing-qr-sheet #thermal-receipt-print,
+  body.printing-qr-sheet #printable-single-qr {
+    display: none !important;
+  }
+
+  /* When printing single table QR stand, hide React root and other sheets */
+  body.printing-single-qr #root {
+    display: none !important;
+  }
+  body.printing-single-qr #thermal-receipt-print,
+  body.printing-single-qr #printable-qr-sheet,
+  body.printing-single-qr #printable-master-qr {
+    display: none !important;
+  }
+
+  /* When printing single Master QR stand, hide React root and other sheets */
+  body.printing-master-qr #root {
+    display: none !important;
+  }
+  body.printing-master-qr #thermal-receipt-print,
+  body.printing-master-qr #printable-single-qr,
+  body.printing-master-qr #printable-qr-sheet {
+    display: none !important;
+  }
+
+  /* Universal hide for non-printable UI elements */
+  .no-print,
+  nav,
+  aside,
+  header,
+  button {
+    display: none !important;
+  }
+
+  /* 1. Centered Thermal POS Receipt - Fits 1 single A4 page */
+  body.printing-receipt #thermal-receipt-print,
+  body:has(#thermal-receipt-print) #thermal-receipt-print {
+    display: block !important;
+    visibility: visible !important;
+    position: relative !important;
+    width: 82mm !important;
+    max-width: 82mm !important;
+    margin: 0 auto !important;
+    padding: 6mm 7mm !important;
+    background: #ffffff !important;
+    color: #000000 !important;
+    font-family: 'Courier New', Courier, monospace, system-ui !important;
+    font-size: 11px !important;
+    line-height: 1.35 !important;
+    box-sizing: border-box !important;
+    border: 1px dashed #333333 !important;
+    border-radius: 4px !important;
+    box-shadow: none !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+
+  #thermal-receipt-print * {
+    visibility: visible !important;
+  }
+
+  /* 2. Printable QR Sheet for All Tables */
+  body.printing-qr-sheet #printable-qr-sheet {
+    display: block !important;
+    visibility: visible !important;
+    position: relative !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 4mm !important;
+    background: #ffffff !important;
+    color: #000000 !important;
+    box-sizing: border-box !important;
+  }
+
+  body.printing-qr-sheet #printable-qr-sheet * {
+    visibility: visible !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  .qr-stand-card {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+    border: 2px dashed #2B1D17 !important;
+    box-sizing: border-box !important;
+  }
+
+  /* 3. Single Table QR Stand Print */
+  body.printing-single-qr #printable-single-qr {
+    display: flex !important;
+    visibility: visible !important;
+    position: relative !important;
+    width: 100% !important;
+    min-height: 85vh !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: #ffffff !important;
+    color: #000000 !important;
+    padding: 10mm !important;
+    box-sizing: border-box !important;
+  }
+
+  body.printing-single-qr #printable-single-qr * {
+    visibility: visible !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* 4. Single Master QR Stand Print */
+  body.printing-master-qr #printable-master-qr {
+    display: flex !important;
+    visibility: visible !important;
+    position: relative !important;
+    width: 100% !important;
+    min-height: 85vh !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: #ffffff !important;
+    color: #000000 !important;
+    padding: 10mm !important;
+    box-sizing: border-box !important;
+  }
+
+  body.printing-master-qr #printable-master-qr * {
+    visibility: visible !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+}

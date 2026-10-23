@@ -1,0 +1,22 @@
+{
+  "name": "brew-and-bean-platform",
+  "version": "1.0.0",
+  "description": "BREW & BEAN — 3D Animated QR Café Ordering Platform",
+  "private": true,
+  "workspaces": [
+    "server",
+    "client"
+  ],
+  "scripts": {
+    "install:all": "npm install && npm --prefix server install && npm --prefix client install",
+    "dev": "concurrently -n \"SERVER,CLIENT\" -c \"yellow,cyan\" \"npm --prefix server run dev\" \"npm --prefix client run dev\"",
+    "build": "npm --prefix client run build",
+    "start": "npm --prefix server run start",
+    "seed": "npm --prefix server run seed",
+    "reset-admin": "npm --prefix server run reset-admin",
+    "test:e2e": "npm --prefix server run test:e2e"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
