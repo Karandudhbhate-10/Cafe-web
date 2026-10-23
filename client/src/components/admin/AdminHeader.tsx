@@ -40,21 +40,40 @@ export const AdminHeader: React.FC<AdminHeaderProps> = ({
     <header className="bg-white border-b border-espresso/10 no-print">
       {/* 1. Mobile & Tablet Top Bar (lg:hidden) */}
       <div className="lg:hidden bg-roast text-cream px-4 py-3 flex items-center justify-between border-b border-roast-border">
-        <div className="flex items-center space-x-2.5">
-          <div className="w-8 h-8 rounded-full bg-caramel flex items-center justify-center text-espresso shadow-xs">
-            <Coffee className="w-4 h-4" />
+        <div className="flex items-center space-x-2.5 min-w-0">
+          <div className="w-9 h-9 rounded-full bg-caramel flex items-center justify-center text-espresso shadow-xs shrink-0">
+            <Coffee className="w-4 h-4 text-espresso" />
           </div>
-          <div>
-            <div className="font-serif text-sm font-bold text-white tracking-wide">
-              BREW & BEAN
+          <div className="min-w-0">
+            <div className="flex items-center space-x-1.5 flex-wrap">
+              <span className="font-serif text-sm font-bold text-white tracking-wide">
+                BREW & BEAN
+              </span>
+              <span className="bg-caramel text-espresso text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-full tracking-wider shadow-2xs">
+                Staff Portal
+              </span>
             </div>
-            <div className="text-[9px] uppercase tracking-wider text-caramel font-semibold">
-              Staff Portal • {user?.role || 'Staff'}
+            <div className="text-[11px] text-cream/70 font-medium truncate mt-0.5">
+              {user?.name || 'Staff Member'} • <span className="text-caramel font-semibold capitalize">{user?.role || 'Barista'}</span>
             </div>
           </div>
         </div>
 
-        <div className="flex items-center space-x-1.5">
+        <div className="flex items-center space-x-1.5 shrink-0">
+          {/* Mobile Audio chime toggle */}
+          <button
+            onClick={toggleSound}
+            type="button"
+            className={`p-2 rounded-xl text-xs font-semibold border transition-all ${
+              muted
+                ? 'bg-red-500/20 text-red-300 border-red-500/40'
+                : 'bg-espresso/80 text-caramel border-roast-border'
+            }`}
+            title={muted ? 'Audio Muted' : 'Sound Active'}
+          >
+            {muted ? <VolumeX className="w-3.5 h-3.5 text-red-400" /> : <Volume2 className="w-3.5 h-3.5 text-caramel" />}
+          </button>
+
           <button
             onClick={() => setIsPasswordModalOpen(true)}
             type="button"
@@ -68,7 +87,7 @@ export const AdminHeader: React.FC<AdminHeaderProps> = ({
           <button
             onClick={handleLogout}
             type="button"
-            className="flex items-center space-x-1.5 px-2.5 py-1.5 rounded-xl bg-espresso/80 text-cream/80 hover:text-red-300 text-xs font-semibold border border-roast-border transition-colors"
+            className="flex items-center space-x-1 px-2.5 py-1.5 rounded-xl bg-espresso/80 text-cream/80 hover:text-red-300 text-xs font-semibold border border-roast-border transition-colors"
             title="Sign Out of Staff Portal"
           >
             <LogOut className="w-3.5 h-3.5" />
@@ -80,6 +99,12 @@ export const AdminHeader: React.FC<AdminHeaderProps> = ({
       {/* 2. Main Page Header Bar */}
       <div className="px-4 sm:px-6 py-3.5 sm:py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
         <div>
+          {/* Mobile Staff Portal pill indicator */}
+          <div className="lg:hidden mb-1">
+            <span className="text-[10px] font-bold uppercase tracking-wider bg-caramel/15 text-caramel-dark border border-caramel/30 px-2 py-0.5 rounded-md">
+              Staff Portal • {user?.role || 'Staff'}
+            </span>
+          </div>
           <h1 className="font-serif text-xl sm:text-2xl font-bold text-espresso">{title}</h1>
           {subtitle && <p className="text-xs text-espresso/60 mt-0.5">{subtitle}</p>}
         </div>
