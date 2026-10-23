@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { ShoppingBag, Coffee } from 'lucide-react';
+import { ShoppingBag, Coffee, ShieldCheck } from 'lucide-react';
 import { useCart } from '../../context/CartContext';
 
 interface NavbarProps {
@@ -77,19 +77,9 @@ export const Navbar: React.FC<NavbarProps> = ({ theme = 'auto' }) => {
               >
                 Menu
               </Link>
-              <Link
-                to="/admin/login"
-                className={`text-xs font-semibold uppercase tracking-wider px-2.5 py-1 rounded-md transition-colors ${
-                  isDark
-                    ? 'text-sage-light bg-sage/20 hover:bg-sage/30 border border-sage/30'
-                    : 'text-sage-dark bg-sage/15 hover:bg-sage/25'
-                }`}
-              >
-                Staff Portal
-              </Link>
             </nav>
 
-            {/* Table Indicator & QR Scanner & Cart Button */}
+            {/* Table Indicator, Staff Portal & Cart Button */}
             <div className="flex items-center space-x-1.5 sm:space-x-2.5">
               {tableNumber ? (
                 <div className={`flex items-center space-x-1.5 px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-full text-xs font-medium ${
@@ -103,6 +93,21 @@ export const Navbar: React.FC<NavbarProps> = ({ theme = 'auto' }) => {
                   </span>
                 </div>
               ) : null}
+
+              {/* Staff Portal Link (Always visible in mobile & desktop header) */}
+              <Link
+                to="/admin/login"
+                className={`flex items-center space-x-1 px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-full text-[11px] sm:text-xs font-bold transition-all shadow-2xs border active:scale-95 shrink-0 ${
+                  isDark
+                    ? 'bg-espresso/80 hover:bg-espresso text-caramel border-caramel/40'
+                    : 'bg-white/95 hover:bg-white text-espresso border-[#7DA175]/35 hover:border-caramel/50'
+                }`}
+                title="Staff Portal Login"
+              >
+                <ShieldCheck className="w-3.5 h-3.5 text-caramel shrink-0" />
+                <span className="hidden min-[380px]:inline">Staff Portal</span>
+                <span className="min-[380px]:hidden">Staff</span>
+              </Link>
 
               {/* Active Order Button - ONLY shown if order belongs to current table! */}
               {activeOrderToken && (!tableNumber || !activeOrderTable || activeOrderTable.toUpperCase() === tableNumber.toUpperCase()) && (
